@@ -22,15 +22,18 @@ namespace CasaDoCodigo.Repositories
         private readonly IHttpContextAccessor contextAccessor;
         private readonly IItemPedidoRepository itemPedidoRepository;
         private readonly ICadastroRepository cadastroRepository;
+        private readonly ICategoriaRepository categoriaRepository;
 
         public PedidoRepository(ApplicationContext contexto,
             IHttpContextAccessor contextAccessor,
             IItemPedidoRepository itemPedidoRepository,
-            ICadastroRepository cadastroRepository) : base(contexto)
+            ICadastroRepository cadastroRepository,
+            ICategoriaRepository categoriaRepository) : base(contexto)
         {
             this.contextAccessor = contextAccessor;
             this.itemPedidoRepository = itemPedidoRepository;
             this.cadastroRepository = cadastroRepository;
+            this.categoriaRepository = categoriaRepository;
         }
 
         public async Task AddItem(string codigo)
