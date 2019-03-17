@@ -27,9 +27,27 @@ namespace CasaDoCodigo.Controllers
             this.categoriaRepository = categoriaRepository;
         }
 
-        public IActionResult BuscaDeProdutos()
+        public async Task<IActionResult> BuscaDeProdutos(string pesquisa)
         {
-            return View(produtoRepository.GetProdutos());
+            //Senão estiver passando dados para a pesquisa
+            if (string.IsNullOrWhiteSpace(pesquisa))
+            {
+                var viewPesquisaEmBranco = new PesquisaViewModel(await produtoRepository.GetProdutos(), true);
+                return View(viewPesquisaEmBranco);
+            }
+
+            //Retorna a view em branco senão encontrar dados
+            if(produtoRepository.GetProdutos(pesquisa).Result.Count == 0)
+            {
+                var viewEmBranco = new PesquisaViewModel(false);
+                return View(viewEmBranco);
+            }
+
+            //Realizar a busca por texto
+            var viewPesquisaPorTexto = new PesquisaViewModel(await produtoRepository.GetProdutos(pesquisa), true);
+            return View(viewPesquisaPorTexto);
+
+
         }
 
         public IActionResult Carrossel()
